@@ -1,0 +1,1445 @@
+name: extended_ijcai
+context_variables:
+
+  
+  mental_state_description: 
+    type: enum 
+    known: 
+      type: flag 
+      init: false 
+    options:
+      - normal 
+      - overloaded 
+      - incapacitated
+      
+  physical_state_description: 
+    type: enum 
+    known:
+      type: falg 
+      init: false
+    options: 
+      - eye pain 
+      - headache 
+      - stomachache 
+      - stomach pain  
+
+  fire_context: 
+    type: flag 
+    init: false
+    known: 
+      type: flag 
+      init: false
+  
+
+
+  fire_color: 
+    type: enum 
+    known: 
+      type: flag 
+      init: false 
+    options:
+      - red 
+      - orange 
+  
+  instrument: 
+    type: enum 
+    known: 
+      type: flag 
+      init: false
+    options: 
+      - electronics 
+      - communication 
+      - wiring
+
+
+  smoke_description: 
+    type: enum 
+    known: 
+      type: flag 
+      init: false 
+    options: 
+      - thick black 
+      - black 
+      - white
+      - blue
+      - none 
+
+  fire_smell:
+    type: enum 
+    known: 
+      type: flag 
+      init: false 
+    options: 
+      - burning 
+      - sulpher
+
+
+  location:
+    type: enum 
+    known: 
+      type: flag 
+      init: false
+    options: 
+      - wing
+      - engine
+      - cabin 
+      - electronics
+  
+  
+  seen_smoke: 
+    type: flag 
+    init: false
+    known:
+      type: flag 
+      init: false
+
+  
+
+  know_all_context_for_fire:
+    type: flag 
+    init: false 
+  know_all_context_for_landing_gear_malfunction: 
+    type: flag 
+    init: false 
+  
+  know_all_context_for_health: 
+    type: flag 
+    init: false
+
+
+  server_error: 
+    type: flag 
+    init: false
+    known: 
+      type: flag 
+      init: false
+  
+  no_instructions: 
+    type: flag 
+    init: false
+
+  
+  goal:
+    type: flag
+    init: false
+    known:
+      type: flag
+      init: false
+
+  emergency_type: 
+    type: enum
+    known:
+      type: flag 
+      init: false
+    options:
+      - smoke_unknown_location_and_fire_known
+      - smell_known_location_required
+      - smoke_known_location_required
+      - landing_gear_malfunction_emergency 
+      - physical_health_emergency 
+      - mental_health_emergency
+  
+  reached_server:
+    type: enum 
+    known: 
+      type: flag 
+      init: false 
+    options:
+      - fire
+      - mental_health
+      - physical_health 
+      - landing_gear
+      - none
+      
+
+
+  landing_gear_specifier: 
+    type: enum 
+    known: 
+      type: flag 
+      init: false 
+    options: 
+      - side 
+      - nose
+  
+
+  server_status:
+    type: flag 
+    init: false 
+    known: 
+      type: flag 
+      init: false 
+  
+  got_fire_instruction: 
+    type: flag 
+    init: false
+
+
+  got_landing_gear_instruction: 
+    type: flag 
+    init: false
+
+  
+  got_health_instruction: 
+    type: flag 
+    init: false
+
+
+  physical_health_emergency: 
+    type: flag 
+    init: false
+
+  mental_health_emergency: 
+    type: flag 
+    init: false 
+  
+  foam_request:
+    type: flag 
+    init: false 
+  
+  grass_request:
+    type: flag 
+    init: false
+
+  reset_condition:
+    type: flag 
+    init: false
+     
+
+
+intents: 
+  confirm:
+    utterances:
+      - "yes" 
+      - yeah 
+      - yup
+      - affirmative
+      - aye
+  
+  deny: 
+    utterances:
+      - "no"
+      - nah 
+      - negative 
+      - not at all 
+      - not really 
+  reset: 
+    utterances:
+      - undo last request
+      - start over 
+      - Please restart the routine
+
+  share-fire_emergency_with_location_and_color:
+    type: fire emergency
+    entities:
+      - fire_color
+      - location
+
+    utterances:
+      - I see $fire_color coming out of my $location. 
+      - My $location is burning. I see $fire_color fire
+      - There's a $fire_color flame erupting from my $location.
+      - I'm observing a $fire_color blaze around the $location area.
+      - My $location is engulfed in $fire_color flames.
+      - Emitting $fire_color fire from my aircraft's $location.
+      - I have a $fire_color fire situation at the $location.
+      - Noticing a $fire_color glow in my $location.
+      - My $location is showing signs of a $fire_color fire emergency.
+      - There's a concerning $fire_color smoke coming from my $location.
+      - I've got a $fire_color fire spotted at my $location.
+      - My aircraft's $location is aflame with a $fire_color color.
+      - Detecting $fire_color flames emanating from the $location part.
+      - Immediate attention needed, my $location has a $fire_color fire outbreak.
+      - Reporting a fire emergency, observing $fire_color flames in the $location.
+      - Sighting a dangerous $fire_color fire originating from the aircraft's $location.
+      - My position is compromised due to a $fire_color fire in the $location.
+      - A visible $fire_color fire is affecting my aircraft's overall $location.
+      - Alert! My $location has sparked into a vivid $fire_color flame.
+      - Facing an emergency with a growing $fire_color fire near the $location.
+      - Urgent! A wildfire of color $fire_color in my aircraft's $location detected.
+      - There's a frightening flare of a $fire_color blaze at my aircraft's $location.
+
+
+
+  share-smoke_description:
+    type: fire emergency 
+    entities:
+      - smoke_description
+    
+    utterances:
+      - $smoke_description
+      - I see $smoke_description smoke 
+      - The smoke is $smoke_description
+      - Noticing $smoke_description 
+      - Observing $smoke_description in the air.
+      - Detected $smoke_description smoke nearby.
+      - There's a $smoke_description hue in the smoke.
+      - Visibility impacted by $smoke_description smoke.
+      - The air is filled with $smoke_description smoke.
+      - Encountering $smoke_description smoke ahead.
+      - Smoke appears to be $smoke_description.
+      - The atmosphere has a $smoke_description tinge.
+      - Smoke looks quite $smoke_description today.
+      - $smoke_description plumes visible in the distance.
+      - Sighting $smoke_description smoke clouds.
+      - The skyline marred by $smoke_description smoke.
+      -  Air quality is $smoke_description due to smoke.
+      - Smoke condition observed it’s $smoke_description.
+      - Visual report Smoke transcends into a $smoke_description state. 
+      - Airborne particles identified as $smoke_description in nature. 
+      - Current  Smoke density has a $smoke_description quality. 
+
+  share-location:
+    type: fire emergency 
+    entities:
+      - location
+    utterances:
+      - $location!
+      - from  $location. 
+      - coming out of $location. 
+      - I think $location!
+      - Located in $location.
+      - Hovering above $location.
+      - Exploring around $location.
+      - Positioned at $location.
+      - Residing within $location.
+      - fault identified in $location
+      - Issue coming out of $location 
+      - triggered at $location 
+      - On the exterior of $location 
+      - in the vicnit of $location 
+      - At $location 
+      - Within the area of $location 
+      - Linked to $location 
+      - detected around $location 
+      - Coming from $location 
+      - On $location 
+      - On the intereior of $location 
+
+
+
+  share-fire_color:
+    type: fire emergency 
+    entities:
+      - fire_color
+    utterances:
+      - The fire is $fire_color
+      - Flames have $fire_color
+      - Fire with $fire_color
+      - Observing a fire that's $fire_color.
+      - The blaze is characterized by $fire_color.
+      - Fire alert the color is $fire_color.
+      - We are witnessing $fire_color flames.
+      - The inferno presents $fire_color.
+      - Visual on fire, appears $fire_color.
+      - The fire's hue is notably $fire_color.
+      - The flame exhibits $fire_color.
+      - Fire situation it's showing $fire_color.
+      - The flame's essence is $fire_color.
+      - Encountering fire with a vivid $fire_color.
+      - Situation update fire is $fire_color.
+      - The conflagration is distinctly $fire_color.
+      - Immediate notice flames appear $fire_color.
+      - Reporting a fire situation with $fire_color coloring.
+      - The phenomena of the fire shows $fire_color aesthetics.
+      - Flames clearly demonstrating $fire_color characteristics.
+
+
+  share-fire_emergency_smell_and_location:
+    type: fire emergency
+    entities:
+      - fire_smell
+      - location
+    utterances:
+      - I smell $fire_smell in $location
+      - with $fire_smell in $location
+      - I smell $fire_smell in $location.
+      - Detected $fire_smell near $location.
+      - There's a scent of $fire_smell around $location.
+      - Noticing $fire_smell at $location.
+      - A $fire_smell is coming from $location.
+      - Identifying a $fire_smell within $location.
+      - A distinct $fire_smell noticeable in $location.
+      - Sensing $fire_smell close to $location.
+      - The air has a hint of $fire_smell at $location.
+      - Capturing a whiff of $fire_smell in the vicinity of $location.
+      - Experiencing a strong $fire_smell in the area of $location.
+      - Encounter with $fire_smell detected around $location.
+      - With an undeniable presence of $fire_smell at $location.
+      - Picking up a trace of $fire_smell near $location.
+      - There's an unmistakable smell of $fire_smell emanating from $location.
+      - Alert Smelling $fire_smell in the sector of $location.
+      - Warning The presence of a noticeable $fire_smell in proximity to $location.
+      - Observation a clear odor of $fire_smell found at $location.
+      - Reports indicate a notable smell of $fire_smell approaching the area of $location.
+      - Slight detection of a strong scent of $fire_smell circulating around $location.
+      - Acknowledging a prevalent and striking smell of $fire_smell near the premises of $location.
+      - Confirming the inhalation of a certain kind of a pungent smell, identified as $fire_smell, in the environment surrounding $location.
+
+  share-fire_smell:
+    type: fire emergency 
+    entities:
+      - fire_smell
+    utterances:
+      - I smell $fire_smell
+      - I sense $fire_smell
+      - $fire_smell
+      - Whiff of $fire_smell in the air
+      - I smell $fire_smell.
+      - I sense $fire_smell.
+      - $fire_smell.
+      - Whiff of $fire_smell in the air.
+      - Detecting a scent of $fire_smell.
+      - There's a strong $fire_smell present.
+      - Catching hints of $fire_smell.
+      - Noticing an odor of $fire_smell.
+      - The air has traces of $fire_smell.
+      - Sniffing out a bit of $fire_smell.
+      - Can detect the $fire_smell around.
+      - The essence of $fire_smell is noticeable.
+      - A clear scent of $fire_smell exists.
+      - I'm picking up on some $fire_smell.
+      - Got a noseful of $fire_smell here.
+      - An aroma of $fire_smell is in the vicinity.
+      - There’s an undeniable smell of $fire_smell.
+      - The atmosphere is laden with $fire_smell.
+      - Experiencing the smell of $fire_smell strongly.
+      - A palpable sense of $fire_smell in the environment.
+      - Recognizing the distinct smell of $fire_smell.
+
+  share-landing_gear_malfunction:
+    type: landing_gear_malfunction 
+    entities:
+      - landing_gear_specifier
+    utterances:
+      - My $landing_gear_specifier landing gear is stuck 
+      - malfunction in $landing_gear_specifier landing gear
+      - $landing_gear_specifier landing gear malfunction 
+      - $landing_gear_specifier landing gear gear issue 
+      - $landing_gear_specifier landing gear not retracting  
+      - $landing_gear_specifier landing gear won't deploy.
+      - Experiencing a problem with $landing_gear_specifier landing gear.
+      - Trouble with the $landing_gear_specifier landing gear operation.
+      - $landing_gear_specifier landing gear failure detected.
+      - Cannot engage $landing_gear_specifier landing gear. 
+      - Facing a glitch with $landing_gear_specifier landing gear.
+      - Difficulty in operating $landing_gear_specifier landing gear.
+      - Warning signal for $landing_gear_specifier landing gear.
+      - $landing_gear_specifier landing gear refusing to open.
+      - The $landing_gear_specifier landing gear seems jammed.
+      - Problematic $landing_gear_specifier landing gear at this moment.
+      - Unexpected issue with the $landing_gear_specifier landing gear. 
+      - Complications with retracting $landing_gear_specifier landing gear.
+      - The $landing_gear_specifier landing gear isn’t functioning correctly.
+      - Detected anomaly in $landing_gear_specifier landing gear’s functioning.
+      - Possible jam in the mechanism of $landing_gear_specifier landing gear.
+      - Alert malfunction within the $landing_gear_specifier landing gear system.    
+      - Technical trouble impacting the $landing_gear_specifier landing gear efficiency. 
+
+  share-emergency_service_standby:
+    type: landing_gear_malfunction
+    utterances:
+      - Request emergency services near the runway 
+      - Request emergency services on standby 
+      - Request rescue equipment for our landing 
+      - Request emergency service for landing with no landing_gear 
+      - Need immediate emergency services at the landing site.
+      - Prepare emergency medical teams by the runway.
+      - Alert fire brigade and medical support for arrival.
+      - Coordination requested for emergency response upon touchdown.
+      - Emergency crews needed due to potential landing complications.
+      - Call for standby emergency teams alongside the runway.
+      - Require immediate deployment of emergency services post-landing.
+      - Mobilize all necessary rescue and fire fighting units for the landing.
+      - Immediate readiness of emergency services requested upon our approach.
+      - Summon rapid response teams to aid in possible landing contingencies.
+      - Emergency assistance required immediately after landing attempt. 
+      - Activate on-ground emergency units in preparation for our arrival. 
+      - Operational readiness of emergency squads imperative for safe landing. 
+      - Ensure comprehensive readiness of all emergency services at landing zone. 
+      - Essential that ground emergencies are readied for any eventuality at landing. 
+      - Escort from firefighting and medical units demanded at runway proximity. 
+      - Solicit airport-wide alert for readiness of all emergency personnel. 
+
+  share-foam_request:
+    type: landing_gear_malfunction
+    utterances:
+      - Request runway foam 
+      - Request foam on the runway 
+      - Is it possible to foam the runway? 
+      - Is it possible to foam the runway within the available flight time?
+      - Request to prepare the runway 07 with foam for landing with landing gear 
+      - Can we get foam coverage on the designated landing strip?
+      - Need foam deployment on the runway for an emergency landing.
+      - Urgently asking for the runway to be foamed prior to our landing.
+      - Please cover the runway with foam as a precautionary measure.
+      - Asking for foam spray over the runway to mitigate fire risk at landing.
+      - Could you apply foam on the runway surface to assist in our arrival?
+      - Considering our situation, please ensure foaming of the runway is done. 
+      - For crash landing preparation, apply foam all over the intended runway.
+      - Immediate requirement runway foaming for emergency actions during landing. 
+      - Foam requirement alert Please have the runway foamed for a belly landing. 
+      - Safety request  overlay the landing area with foam due to gear malfunction. 
+      - Affirmative action needed Full-scale foaming of runway to support our descent.
+      - Operational request  Initiate foaming protocol on our expected landing strip ASAP. 
+      - Emergency protocol activation Require foaming of our landing trajectory immediately.
+      - Provision request Layering of firefighting foam across runway surface pre-landing required. 
+      - How quickly can we get a layer of safety foam on our proposed landing strip?
+
+  share-grass_strip:
+    type: landing_gear_malfunction
+    utterances:
+      - Request to switch to runway 
+      - landing on gras runway 
+      - prefer to land on gras 
+      - going for the gras runway to reduce fire risk 
+      - request for emergency landing left of runway on grass
+      - Request to prepare the runway 07 with foam for landing with landing gear.
+      - Opting for grass strip landing due to technical issues.
+      - Is the grass landing strip available for emergency use?
+      - Need clearance for an immediate grass strip landing.
+      - Diverting to grass strip for a safer emergency landing.
+      - Considering grass runway for touchdown, please confirm availability.
+      - Initiating approach towards grass field adjacent to main runway.
+      - Seeking permission for unscheduled landing on grass strip.
+      - Grass strip preferred for landing, awaiting go-ahead.
+      - Planning on utilizing grass strip for unexpected landing scenario.
+      - Coordinating for a rapid diversion to nearest grass landing area.
+      - Grass runway option being considered for imminent touchdown.
+      - Implementing immediate descent towards alternative grass strip.
+      - Final approach directed towards secondary grass landing venue.
+      - Preparing for contingency landing on designated grass zone.
+      - Announcing intent to execute landing procedure on grass strip due to urgency.
+
+  share-physical_health_status:
+    type: health 
+    entities:
+      - physical_state_description
+    utterances:
+      - I got $physical_state_description
+      - I have a $physical_state_description
+      - Having a $physical_state_description 
+      - Suffering from a $physical_state_description.
+      - Experiencing a $physical_state_description.
+      - Feeling a bit $physical_state_description.
+      - Currently facing a $physical_state_description.
+      - Dealing with a $physical_state_description.
+      - I'm in a state of $physical_state_description.
+      - Enduring a $physical_state_description.
+      - I've been diagnosed with a $physical_state_description.
+      - I find myself with a $physical_state_description.
+      - It appears I have a $physical_state_description.
+      - Struggling with a $physical_state_description today.
+      - I am currently $physical_state_description.
+      - Noticed I've been quite $physical_state_description lately.
+      - My condition is a bit $physical_state_description at the moment.
+      - It feels like a $physical_state_description has hit me.
+      - Battling against a $physical_state_description right now.
+      - Encountering some $physical_state_description symptoms.
+      - My overall health is somewhat $physical_state_description currently.
+  
+
+  share-mental_health_status:
+    type: health 
+    entities:
+      - mental_state_description
+    utterances:
+      - I feel $mental_state_description
+      - I have $mental_state_description
+      - Having a $mental_state_description
+      - Suffering from a $mental_state_description.
+      - Experiencing a $mental_state_description.
+      - Feeling a bit $mental_state_description.
+      - Currently facing a $mental_state_description.
+      - Dealing with a $mental_state_description.
+      - I'm in a state of $mental_state_description.
+      - Enduring a $mental_state_description.
+      - I've been diagnosed with a $mental_state_description.
+      - I find myself with a $mental_state_description.
+      - It appears I have a $mental_state_description.
+      - Struggling with a $mental_state_description today.
+      - I am currently $mental_state_description.
+      - Noticed I've been quite $mental_state_description lately.
+      - My condition is a bit $mental_state_description at the moment.
+      - It feels like a $mental_state_description has hit me.
+      - Battling against a $mental_state_description right now.
+      - Encountering some $mental_state_description symptoms.
+      - My overall health is somewhat $mental_state_description currently.
+
+actions:
+
+
+  get-initial_help_request: 
+    type: custom
+    subtype: slot_fill_more
+
+    parameters:
+      message_variants:
+        - What can I help you with today?
+      condition:
+        fire_color:
+          known: false
+        location:
+          known: false
+        fire_smell:
+          known: false
+        smoke_description: 
+          known: false
+        mental_state_description:
+          known: false
+        physical_state_description:
+          known: false
+        landing_gear_specifier:
+          known: false
+      
+      effect:
+        determine_emergency_type: 
+          oneof:
+            outcomes:
+             
+              fire_emergency_location_color_driven:
+                entities:
+                  - fire_color
+                  - location
+                overall_intent: share-fire_emergency_with_location_and_color 
+                config_entities:
+                  fire_color:
+                    fallback_message_variants:
+                      - Sorry I did not catch the fire color. Can you repeat it? 
+                    single_slot_message_variants:
+                      - What color is the fire?  
+                    single_slot_intent: share-fire_color
+                  
+                  location: 
+                    fallback_message_variants:
+                      - I did not catch the fire location. Can you repeat it? 
+                    single_slot_message_variants:
+                      - Where is the fire? 
+                    single_slot_intent: share-location
+                    clarify_message_variants:
+                      - Is the fire in $location ? 
+                additional_updates:
+                  - outcome:
+                      fire_color:
+                        known: true 
+                    response_variants:
+                      - ok, noted 
+                  - outcome:
+                      location:
+                        known: true
+                    response_variants:
+                      - Ok, ok   
+
+              fire_emergency_smell_driven:
+                entities:
+                  - fire_smell
+                
+                overall_intent: share-fire_smell
+
+                config_entities:
+                  fire_smell: 
+                    fallback_message_variants:
+                      - Sorry, I did not understand the fire smell. Can you repeat it? 
+                    single_slot_message_variants: 
+                      - What does the fire smell like? 
+                  single_slot_intent: share-fire_smell
+            
+
+                additional_updates:
+                  - outcome:
+                      fire_smell: 
+                        known: true 
+                    response_variants:
+                      - fire smell known
+                  - outcome:
+                      emergency_type:
+                        value: smell_known_location_required
+                        known: true
+
+                    
+                    
+
+              fire_emergency_smoke_driven:
+                entities:
+                  - smoke_description
+                overall_intent: share-smoke_description
+
+                config_entities:
+                  smoke_description: 
+                    fallback_message_variants:
+                      - Sorry I did no understand the type of smoke. Can you repeat it? 
+                    
+                    # single_slot_message_variants:
+                    #   - What kind of smoke do you see? 
+                    # single_slot_intent: share-smoke_description
+                    clarify_message_variants:
+                      - So do you see $smoke_description smoke? 
+
+                additional_updates:
+                  - outcome:
+                      smoke_description:
+                        known: true 
+                    response_variants:
+                      - smoke type known 
+                  - outcome: 
+                      emergency_type:
+                        value: smoke_known_location_required
+                        known: true 
+
+              landing_gear_malfunction: 
+                entities:
+                  - landing_gear_specifier 
+                overall_intent: share-landing_gear_malfunction
+
+                config_entities:
+                  landing_gear_specifier: 
+                    clarify_message_variants:
+                      - Did you mean $landing_gear_specifier?
+                  additional_updates:
+                    - outcome:
+                        landing_gear_specifier:
+                          known: true 
+                      response_variants:
+                        - landing gear specifier known
+              
+
+              physical_health_emergency: 
+                entities:
+                  - physical_state_description
+                overall_intent: share-physical_health_status
+                config_entities:
+                  physical_state_description: 
+                    clarify_message_variants:
+                      - Did you mean your $physical_state_description? 
+                additional_updates:
+                  - outcome:
+                      physical_state_description: 
+                        known: true 
+                    response_variants:
+                      - body part known
+
+
+              mental_health_emergency: 
+                entities:
+                  - mental_state_description
+                overall_intent: share-mental_health_status
+                config_entities:
+                  mental_state_description: 
+                    clarify_message_variants: 
+                      - Did you mean, you feel $mental_state_description? 
+                additional_updates:
+                  - outcome:
+                      mental_state_description:
+                        known: true 
+                    response_variants:
+                      - mental state known
+
+
+
+  # This block here can be simplified once OR operator is implemented
+
+  determine_emergency_s_u: 
+    type: system 
+    condition:
+      location: 
+        known: true 
+      fire_color: 
+        known: true 
+    effect:
+      update: 
+        oneof:
+          outcomes: 
+            update: 
+              updates: 
+                emergency_type:
+                  value: smoke_unknown_location_and_fire_known
+                  known: true
+
+  determine_emergency_l_r: 
+    type: system 
+    condition:
+      fire_smell: 
+        known: true
+    effect:
+      update: 
+        oneof:
+          outcomes: 
+            update: 
+              updates: 
+                emergency_type:
+                  value: smell_known_location_required
+                  known: true
+
+  determine_emergency_s_k: 
+    type: system 
+    condition:
+      smoke_description: 
+        known: true 
+    effect:
+      update: 
+        oneof:
+          outcomes: 
+            update: 
+              updates: 
+                emergency_type:
+                  value: smoke_known_location_required
+                  known: true
+
+  determine_emergency_l_g: 
+    type: system 
+    condition:
+      landing_gear_specifier: 
+        known: true 
+    effect:
+      update: 
+        oneof:
+          outcomes: 
+            update: 
+              updates: 
+                emergency_type:
+                  value: landing_gear_malfunction_emergency
+                  known: true
+
+  determine_emergency_p_h:  
+    type: system 
+    condition:
+      physical_state_description: 
+        known: true 
+    effect:
+      update: 
+        oneof:
+          outcomes: 
+            update: 
+              updates: 
+                emergency_type:
+                  value: physical_health_emergency
+                  known: true
+                
+  determine_emergency_m_h: 
+    type: system 
+    condition:
+      mental_state_description: 
+        known: true 
+    effect:
+      update: 
+        oneof:
+          outcomes: 
+            update: 
+              updates: 
+                emergency_type:
+                  value: mental_health_emergency
+                  known: true
+
+
+  inital_health_context: 
+    type: system
+    subtype: Context dependent determination 
+    condition: 
+      emergency_type:
+        known: true
+      physical_health_emergency:
+        value: false 
+      mental_health_emergency:
+        value: false 
+    effect: 
+      health_type: 
+        oneof:
+          outcomes: 
+            physical:
+              updates:  
+                physical_health_emergency:
+                  value: true 
+              context: 
+                emergency_type:
+                  value: physical_health_emergency
+            mental:  
+              updates: 
+                mental_health_emergency:
+                  value: true 
+              context: 
+                emergency_type:
+                  value: mental_health_emergency
+
+              
+
+  get-info_mental: 
+    type: dialogue
+    message_variants:
+      - Any additional mental health info? 
+    condition:
+      emergency_type:
+        known: true
+        value: mental_health_emergency
+      know_all_context_for_health:
+        value: false
+   
+    effect: 
+      set-smoke: 
+        oneof: 
+          outcomes: 
+            indicate_no_addition:
+              updates:
+                # know_all_context_for_health:
+                #   value: true
+                  # This is to loop to physical_health_emergency
+                emergency_type:
+                  known: true
+                  value: physical_health_emergency
+
+              intent: deny  
+            # ADD any other outcomes here
+
+
+  get-info_physical: 
+    type: dialogue
+    message_variants:
+      - Any additional physical health info? 
+    condition:
+      emergency_type:
+        known: true
+        value: physical_health_emergency
+      know_all_context_for_health:
+        value: false
+      
+   
+    effect: 
+      set-smoke: 
+        oneof: 
+          outcomes: 
+            indicate_no_addition:
+              updates:
+                know_all_context_for_health:
+                  value: true
+              intent: deny
+
+            # ADD any other outcomes here
+
+
+
+
+  
+  get-smoke_from_fire: 
+    type: dialogue
+    message_variants:
+      - Do you see any smoke? 
+    condition:
+      emergency_type:
+        known: true
+        value: smoke_unknown_location_and_fire_known
+      seen_smoke:
+        known: false
+      know_all_context_for_fire:
+        value: false
+   
+    effect: 
+      set-smoke: 
+        oneof: 
+          outcomes: 
+            indicate_smoke_not_seen:
+              updates:
+                seen_smoke:
+                  value: false
+                  known: true
+                know_all_context_for_fire:
+                  value: true
+              intent: deny 
+            indicate_smoke_seen: 
+              updates: 
+                seen_smoke:
+                  value: true 
+                  known: true
+              intent: confirm
+
+
+  get-location_for_smell_driven:
+    type: custom
+    subtype: slot_fill
+    condition:
+      emergency_type: 
+        value: smell_known_location_required
+    parameters:
+      action_name:  get-location_for_smell_driven
+      overall_intent: share-location
+      entities:
+        - location
+      message_variants:
+        - Whats your best guess where the smell is coming from?
+      fallback_message_variants:
+        - Repeat please. 
+      
+      config_entities:
+        location:
+          clarify_message_variants:
+            - Did you mean $location?
+      additional_updates:
+        - outcome:
+            location: 
+              known: true 
+          response_variants:
+            - noted the location
+
+  get-location_for_smoke_driven:
+    type: custom
+    subtype: slot_fill
+    condition:
+      emergency_type: 
+        value: smoke_known_location_required
+    parameters:
+      action_name:  get-location_for_smoke_driven
+      overall_intent: share-location
+      entities:
+        - location
+      message_variants:
+        - Whats your best guess where the smoke is coming from?
+      fallback_message_variants:
+        - Repeat please. 
+      
+      config_entities:
+        location:
+          clarify_message_variants:
+            - Did you mean $location?
+      additional_updates:
+        - outcome:
+            location: 
+              known: true 
+          response_variants:
+            - noted the location
+
+  get-smoke_description:
+    type: custom
+    subtype: slot_fill
+    condition:
+      seen_smoke: 
+        value: true
+        known: true
+    parameters:
+      action_name:  get-smoke_description
+      overall_intent: share-smoke_description
+      entities:
+        - smoke_description
+      message_variants:
+        - Describe the smoke
+      fallback_message_variants:
+        - Specify wether smoke is black or white?
+      
+      config_entities:
+        smoke_description:
+          clarify_message_variants:
+            - Did you mean $fire_color?
+      additional_updates:
+        - outcome:
+            smoke_description: 
+              known: true 
+          response_variants:
+            - noted fire color
+  
+  smoke_from_dialog_location_color_known: 
+    type: system
+    condition:
+      smoke_description: 
+        known: true
+      emergency_type: 
+        known: true
+        value: smoke_unknown_location_and_fire_known
+
+    effect:
+      set-context_known: 
+        oneof: 
+          outcomes: 
+            set-all_context_known:
+              updates:  
+                know_all_context_for_fire:
+                  value: true
+ 
+
+
+
+  smell_with_location_guess: 
+    type: system
+    condition:
+      location: 
+        known: true
+      emergency_type: 
+        known: true
+        value: smell_known_location_required
+
+    effect:
+      set-context_known: 
+        oneof: 
+          outcomes: 
+            set-all_context_known:
+              updates:  
+                know_all_context_for_fire:
+                  value: true
+
+
+  smoke_with_location_guess: 
+    type: system
+    condition:
+      location: 
+        known: true
+      emergency_type: 
+        known: true
+        value: smoke_known_location_required
+
+    effect:
+      set-context_known: 
+        oneof: 
+          outcomes: 
+            set-all_context_known:
+              updates:  
+                know_all_context_for_fire:
+                  value: true
+
+
+
+  # landing_gear_malfunction_context: 
+  #   type: system
+  #   condition:
+  #     landing_gear_specifier: 
+  #       known: true
+  #     # if i require more actions, the effect of these actions go here
+
+  #   effect:
+  #     set-context_known: 
+  #       oneof: 
+  #         outcomes: 
+  #           set-all_context_known:
+  #             updates:  
+  #               know_all_context_for_landing_gear_malfunction:
+  #                 value: true
+
+
+
+
+
+  landing_gear_malfunction_get_landing_type: 
+    type: dialogue
+    message_variants:
+      - Where do you want to land on? Grass or foamed runway? 
+    condition:
+      landing_gear_specifier: 
+        known: true
+      grass_request:
+        value: false 
+      foam_request:
+        value: false
+      reset_condition:
+        value: false
+      # if i require more actions, the effect of these actions go here
+
+    effect:
+      set-context_known: 
+        oneof: 
+          outcomes: 
+            set-all_context_known_foam:
+              updates:
+                foam_request:
+                  value: true   
+                know_all_context_for_landing_gear_malfunction:
+                  value: true
+              intent: share-foam_request
+            
+            set-all_context_known_grass:
+              updates: 
+                grass_request:
+                  value: true 
+                know_all_context_for_landing_gear_malfunction:
+                  value: true 
+              intent: share-grass_strip
+
+  #           restart: 
+  #             updates:
+  #               reset_condition:
+  #                 value: true
+  #             intent: reset
+  # reset_action: 
+  #   type: system 
+  #   condition:
+  #     reset_condition:
+  #       value: true 
+  #   effect:
+  #     update:  
+  #       oneof:
+  #         outcomes:
+  #           reset-all: 
+  #             updates: 
+  #               fire_color:
+  #                 known: false
+  #               location:
+  #                 known: false
+  #               fire_smell:
+  #                 known: false
+  #               smoke_description: 
+  #                 known: false
+  #               mental_state_description:
+  #                 known: false
+  #               physical_state_description:
+  #                 known: false
+  #               landing_gear_specifier:
+  #                 known: false           
+
+            
+
+
+
+
+## Before you think you can use context dpendendet determination 
+## JUST DONT. The implementation is not yet done so this 
+  get-fire_instruction: 
+      type: web_plan
+      call: 
+        endpoint: "http://127.0.0.1:9000/create_plan" 
+        default_payload: {
+                        "id":1,
+                        "domain_file":"/home/qnc/upf-hierarchical/domain/domain_fond.hddl",
+                        "problem_file":"/home/qnc/upf-hierarchical/problem/fire.hddl"
+        }
+
+      message_variants:
+        - Calling the server
+      condition: 
+
+        know_all_context_for_fire:
+          value: true
+        reached_server:
+          known: false
+        got_fire_instruction:
+          value: false 
+        
+      effect: 
+        set-get-fire_instruction: 
+          oneof:
+            outcomes: 
+              got_engine_fire_instruction: 
+                updates: 
+                  reached_server:
+                    known: true 
+                  got_fire_instruction:
+                    value: true
+              got_engine_fire_instruction_false:
+                updates: 
+                  reached_server:
+                    known: true
+                  got_fire_instruction:
+                    value: false
+
+
+
+  get-landing_gear_instruction: 
+      type: web_plan
+      call: 
+        endpoint: "http://127.0.0.1:9000/create_plan" 
+        default_payload: {
+                        "id":1,
+                        "domain_file":"/home/qnc/upf-hierarchical/domain/domain_fond.hddl",
+                        "problem_file":"/home/qnc/upf-hierarchical/problem/fire.hddl"
+        }
+
+      message_variants:
+        - Calling the server
+      condition: 
+
+        know_all_context_for_landing_gear_malfunction:
+          value: true
+        reached_server:
+          known: false
+        got_fire_instruction:
+          value: false 
+        
+      effect: 
+        set-get-fire_instruction: 
+          oneof:
+            outcomes: 
+              got_engine_fire_instruction: 
+                updates: 
+                  reached_server:
+                    known: true 
+                  got_landing_gear_instruction:
+                    value: true
+              got_engine_fire_instruction_false:
+                updates: 
+                  reached_server:
+                    known: true
+                  got_landing_gear_instruction:
+                    value: false
+
+
+  get-health_instruction: 
+      type: web_plan
+      call: 
+        endpoint: "http://127.0.0.1:9000/create_plan" 
+        default_payload: {
+                        "id":1,
+                        "domain_file":"/home/qnc/upf-hierarchical/domain/domain_fond.hddl",
+                        "problem_file":"/home/qnc/upf-hierarchical/problem/fire.hddl"
+        }
+
+      message_variants:
+        - Calling the server
+      condition: 
+
+        know_all_context_for_health:
+          value: true
+        reached_server:
+          known: false
+        got_health_instruction:
+          value: false 
+        
+      effect: 
+        set-get-fire_instruction: 
+          oneof:
+            outcomes: 
+              got_engine_fire_instruction: 
+                updates: 
+                  reached_server:
+                    known: true 
+                  got_health_instruction:
+                    value: true
+              got_engine_fire_instruction_false:
+                updates: 
+                  reached_server:
+                    known: true
+                  got_health_instruction:
+                    value: false
+
+  # final-context: 
+  #     type: system 
+  #     subtype: Context dependent determination
+  #     condition:
+        
+  #       reached_server:
+  #         known: true
+  #       got_fire_instruction:
+  #         value: false
+  #       got_landing_gear_instruction:
+  #         value: false 
+  #       got_physical_health_instruction:
+  #         value: false 
+  #       got_mental_health_instruction:
+  #         value: false
+  #       server_error:
+  #         value: false
+  #       no_instructions:
+  #         value: false
+
+
+  #     effect:
+  #       set-complete: 
+  #         oneof:
+  #           outcomes:
+  #             electric_fire: 
+  #               updates:
+  #                 got_fire_instruction:
+  #                   value: true
+  #               context:
+  #                 reached_server: 
+  #                   value: fire
+              
+              # landing_gear: 
+              #   updates:
+              #     got_landing_gear_instruction:
+              #       value: true
+              #   context:
+              #     reached_server: 
+              #       value: landing_gear
+              #     server_status:
+              #       value: true 
+
+              # physical_health: 
+              #   updates:
+              #     got_physical_health_instruction:
+              #       value: true
+              #   context:
+              #     reached_server: 
+              #       value: physical_health
+              #     server_status:
+              #       value: true 
+              # mental_health: 
+              #   updates:
+              #     got_mental_health_instruction:
+              #       value: true
+              #   context:
+              #     reached_server: 
+              #       value: mental_health
+              #     server_status:
+              #       value: true 
+
+              # error: 
+              #   updates: 
+              #     no_instructions: 
+              #       value: true
+              #   context:
+              #     reached_server:
+              #       value: none 
+
+
+
+
+
+
+  # All of this could be simplified if i add a system update after server call and then do context dependent determination but this works too 
+  complete-fire:
+    type: system 
+    condition: 
+      got_fire_instruction:
+        value: true
+    effect:
+      finish:
+        oneof:
+          outcomes:
+            finish:
+              updates:
+                goal:
+                  value: true
+  
+  complete:
+    type: system 
+    condition: 
+      got_landing_gear_instruction:
+        value: true
+    effect:
+      finish:
+        oneof:
+          outcomes:
+            finish:
+              updates:
+                goal:
+                  value: true
+ 
+  complete_health:
+    type: system 
+    condition: 
+      got_health_instruction:
+        value: true
+    effect:
+      finish:
+        oneof:
+          outcomes:
+            finish:
+              updates:
+                goal:
+                  value: true
+
+
+  complete_error:
+    type: system 
+    condition: 
+      got_fire_instruction:
+        value: false
+      got_health_instruction:
+        value: false 
+      got_landing_gear_instruction:
+        value: false
+      reached_server:
+        known: true
+    effect:
+      finish:
+        oneof:
+          outcomes:
+            finish:
+              updates:
+                goal:
+                  value: true
+
+ 
