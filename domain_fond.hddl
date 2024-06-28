@@ -1,0 +1,702 @@
+;Header and description
+; Modelled using the Cessan 162 http://www.northcoastair.com/documents/Cessna%20162%20POH.pdf
+; conventions for predicates use p_
+; before methods use m_
+; variable names in camelCase
+; Object names in PascalCase
+; try to be as descrpitive as possible while defining the name types 
+
+;different methods cannot have the same input and same parameters, even if the precondition is different
+
+; In this domain we model the following three scenarios. 
+; 1. React to In-Flight Fire 
+; 2. React to Landing Gear Malfunction 
+; 3. General health emergency 
+
+(define (domain airplaneDomain)
+
+    ;remove requirements that are not needed
+    (:requirements :negative-preconditions :hierarchy)
+
+    (:types
+
+        Accessories AircraftPart Position LandingSurface Communications ExtPerformableActions Emergency InteractableElements Instrument  - object
+        Switch Button Valve Knob Vent - InteractableElements
+        NavLightSwitch StrobeLightSwitch AvionicsMasterSwitch MasterAlternatorSwitch MasterBatterySwitch LandingLightSwitch - Switch 
+        CabinHeatControlKnob - Knob
+        FuelShutOffValve - Valve
+        CabinVent - Vent
+        MaydayMessage PanMessage - Communications
+        MixtureCutOffPostion - Position
+        FireType FireColor HealthEmergencyType LandingGearEmergency - Emergency
+        ApplyFullElevator AvoidBreaking ReleaseBackPressure ReduceSpeed BurnOffFuelOneSide NoseHigh ApplyAileron BurnOffExcessFuel ActivateAllFlightHelp GiveControlToAutopilot AlertATC ActivateFireExtinguisher RapidDescent ForcedLandingWithPower ForcedLandingWithoutPower Slideslip MaintainAirspeed - ExtPerformableActions
+        ; EngineFire ElectricFire CabinFire - FireType
+        ; MentalHealth PhysicalHealth - HealthEmergencyType
+        ; SingleLeadingGear AllLandingGear - LandingGearEmergency
+
+        ; EngineCompartmentFire - EngineFire
+
+
+    )
+
+    (:predicates ;todo: define predicates here
+
+        (p_isSmokeDetected)
+        (p_isFireDetected ?fireType - FireType)
+        (p_isCowlingAreaDiscolorationDetected)
+
+
+        (p_isFireElectric ?fireType - FireType)
+        (p_isFireEngine ?fireType - FireType)
+        (p_isFireWing ?fireType - FireType)
+
+        (p_isFireColorRed ?fireColor - FireColor)
+
+        (p_isMental ?healthEmergencyType - HealthEmergencyType)
+        (p_isPhysical ?healthEmergencyType - HealthEmergencyType)
+
+        (p_isSide ?landingGearEmergency - LandingGearEmergency)
+        (p_isNose ? landingGearEmergency - LandingGearEmergency)
+
+        (p_isFoam ?landingSurface - LandingSurface)
+        (p_isStrip ? landingSurface - LandingSurface)
+
+
+        (p_isOn ?instrument - InteractableElements)
+        (p_isOff ?instrument - InteractableElements)
+
+        (p_isPositionReached ?position - Position)
+        (p_isCabinVentsClosed )
+        (p_isPerformed ?extPerformableActions - ExtPerformableActions)
+        (p_isPulledOut ?valve - Valve)
+        (p_isPulledIn ?valve - Valve)
+
+
+        ; (p_turn_off_master_switch_only_bat)
+        ; (p_turn_off_master_switch_only_alt)
+        ; (p_turn_on_master_switch_only_bat)
+        ; (p_turn_on_master_switch_only_alt)
+        ; (p_turn_on_master_switch)
+        ; (p_turn_off_master_switch)
+        ; (p_isFireExtinguished)
+
+    )
+
+    (:task react_to_fire_type_emergency
+        :parameters()
+        
+        )
+
+    (:task turn_off_master_switch
+        :parameters (?fireType - FireType)
+    )
+    (:task turn_on_master_switch
+        :parameters(?fireType - FireType))
+
+    (:task react_to_health_emergency
+        :parameters())
+
+    (:task react_to_landing_gear_emergency
+        :parameters())
+
+    (:task electric_fire_initial_steps
+        :parameters())
+    (:task electric_fire_follow_up_steps
+        :parameters())
+
+    (:method m_react_to_fire_type_emergency_engine_fire
+        :parameters(?fireType - FireType
+                    ?mixtureCutOffPostion - MixtureCutOffPostion
+                    ?fuelShutOffValve - FuelShutOffValve
+                    ?maintainAirspeed - MaintainAirspeed
+                    ?cabinHeatControlKnob - CabinHeatControlKnob
+                    ?forcedLandingWithoutPower - ForcedLandingWithoutPower)
+        :task
+        (react_to_fire_type_emergency )
+
+        :precondition(and
+        (p_isFireEngine ?fireType))
+
+        :ordered-subtasks
+        (and 
+            (task1
+                (set_mixture_control_to_idle_cutoff_position ?mixtureCutOffPostion ))
+            (task2
+                (pull_out_fuel_shutoff_valve ?fuelShutOffValve ))
+            (task3 
+                (turn_off_master_switch ?fireType))
+            (task4
+                (turn_off_cabin_heat_control_knob ?cabinHeatControlKnob ))
+            (task5
+                (maintain_airspeed_of_85_knots ?maintainAirspeed ))
+             (task6
+                ( execute_forced_landing_without_power ?forcedLandingWithoutPower))
+            
+            )
+
+        )
+
+
+    (:method m_react_to_fire_type_emergency_electric_fire
+        :parameters(?fireType - FireType ?masterAlternatorSwitch - MasterAlternatorSwitch ?masterBatterySwitch - MasterBatterySwitch)
+        :task
+        (react_to_fire_type_emergency )
+
+        :precondition(and
+        (p_isFireElectric ?fireType))
+
+        :ordered-subtasks
+        (and 
+        (task1 
+            (turn_off_master_switch ?fireType))
+        (task2
+            (electric_fire_initial_steps)
+        )
+        (task3
+            (electric_fire_follow_up_steps)
+        )
+
+        )
+    )
+    
+    (:method m_electric_fire_initial_steps
+        :parameters(?ams - AvionicsMasterSwitch ?cabinVent - CabinVent ?activateFireExtinguisher - ActivateFireExtinguisher)
+        :task 
+        (electric_fire_initial_steps)
+        :ordered-subtasks
+        (and
+        
+         (task2
+                (close_cabin_vents ?cabinVent))
+            (task3
+                (activate_fire_extinguisher ?activateFireExtinguisher))
+            (task4
+                (turn_off_avionics_master_switch ?ams ))
+
+        
+        )
+        
+    )
+
+    (:method m_electric_fire_follow_up_steps
+        :parameters(?fireType - FireType ?rapidDescent - RapidDescent ?ams - AvionicsMasterSwitch ?alertATC - AlertATC ?forcedLandingWithPower - ForcedLandingWithPower)
+        :task 
+        (electric_fire_follow_up_steps)
+        :ordered-subtasks
+        (and
+        
+        (task1
+            (turn_on_master_switch ?fireType ))
+        (task2
+            (perform_rapid_descent ?rapidDescent))
+        (task3
+            (turn_on_avionics_master_switch ?ams ))
+        (task4
+            (alert_ATC_action ?alertATC ))
+        (task5
+            (execute_forced_landing_with_power ?forcedLandingWithPower ))
+        
+        )
+        
+    )
+        
+ 
+
+    (:method m_react_to_fire_type_emergency_wing_fire
+        :parameters(?fireType - FireType ?landingLightSwitch - LandingLightSwitch ?navLightSwitch - NavLightSwitch ?strobeLightSwitch - StrobeLightSwitch ?slideslip - Slideslip)
+        :task
+        (react_to_fire_type_emergency )
+
+        :precondition(and
+
+         (p_isFireWing ?fireType))
+
+        :ordered-subtasks
+        (and 
+            (task1 
+                (turn_off_landing_light_switch ?landingLightSwitch))
+            (task2
+                (turn_off_nav_light_switch ?navLightSwitch))
+            (task3
+                (turn_off_strobe_light_switch ?strobeLightSwitch))
+            
+            (task4
+                (perfom_slideslip ?slideslip))
+        )
+    )
+
+
+
+
+
+
+    (:method m_turn_off_master_switch_alt_and_bat
+        :parameters (?fireType - FireType ?masterAlternatorSwitch - MasterAlternatorSwitch ?masterBatterySwitch - MasterBatterySwitch)
+        :task(turn_off_master_switch ?fireType)
+        :precondition(and
+            (p_isFireElectric ?fireType)
+        )
+        :subtasks
+        (and
+            (task1 
+                (turn_off_master_switch_alt ?masterAlternatorSwitch)
+            )
+            (task2
+                (turn_off_master_switch_bat ?masterBatterySwitch)
+            )
+        )
+    )
+
+
+    (:method m_turn_off_master_switch_alt
+        :parameters (?fireType - FireType ?masterAlternatorSwitch - MasterAlternatorSwitch ?masterBatterySwitch - MasterBatterySwitch)
+        :task(turn_off_master_switch ?fireType)
+        :precondition(and
+            (p_isFireEngine ?fireType)
+        )
+        :subtasks
+        (and
+            (task1 
+                (turn_off_master_switch_alt ?masterAlternatorSwitch)
+            )
+        )
+    )
+
+    (:method m_turn_on_master_switch_alt_and_bat
+        :parameters (?fireType - FireType ?masterAlternatorSwitch - MasterAlternatorSwitch ?masterBatterySwitch - MasterBatterySwitch)
+        :task(turn_on_master_switch ?fireType)
+        :precondition(and
+            (p_isFireElectric ?fireType)
+        )
+        :subtasks
+        (and
+            (task1 
+                (turn_on_master_switch_alt ?masterAlternatorSwitch)
+            )
+            (task2
+                (turn_on_master_switch_bat ?masterBatterySwitch)
+            )
+        )
+    )
+
+
+    (:method m_turn_on_master_switch_alt
+        :parameters (?fireType - FireType ?masterAlternatorSwitch - MasterAlternatorSwitch)
+        :task(turn_off_master_switch ?fireType)
+        :precondition(and
+            (p_isFireEngine ?fireType)
+        )
+        :subtasks
+        (and
+            (task1 
+                (turn_on_master_switch_alt ?masterAlternatorSwitch)
+            )
+        )
+    )
+
+
+    (:method m_react_to_health_emergency_physical
+
+        ; This is not from standard handbook 
+        ; alert ATC 
+        ; engage all flight help 
+        ; 
+
+        :parameters (?healthEmergencyType - HealthEmergencyType 
+        ?alertATC - AlertATC
+        ?activateAllFLightHelp - ActivateAllFlightHelp)
+        :task(react_to_health_emergency )
+        :precondition(and
+            (p_isPhysical ?healthEmergencyType)
+        )
+        :subtasks
+        (and
+            (task1 
+                (alert_ATC_action ?alertATC )
+            )
+            (task2
+                (activate_all_flight_help ?activateAllFLightHelp)
+            )
+        )
+    )
+
+    (:method m_react_to_health_emergency_mental
+        ; This is also not from standard handbook 
+        ; alert ATC 
+        ; give all control to autopilot 
+        ; set to nearst landing location 
+        :parameters (?healthEmergencyType - HealthEmergencyType
+                     ?alertATC - AlertATC
+                     ?giveControlToAutopilot - GiveControlToAutopilot)
+        :task(react_to_health_emergency )
+        :precondition(and
+            (p_isMental ?healthEmergencyType)
+        )
+        :subtasks
+        (and
+            (task1 
+                 (alert_ATC_action ?alertATC )
+            )
+          (task2 
+                (give_control_to_autopilot ?giveControlToAutopilot)
+            )
+        )
+    )
+
+    (:method m_react_to_landing_gear_emergency_strip_foam_side
+        ;; Depending on the configuration for eg foam or grass or strip 
+        ; and which wheel is retracted  foamed strip 
+        ;; with activated nosewheel and one main gear in another case
+        ;; 
+        ;; one  landing on strip with nose extened 
+        ; burnOfffuelOneside
+        ; reduce speed 
+        ; nose high
+        ; apply aileron
+        :parameters (?landingGearEmergency - LandingGearEmergency
+                    ?burnOfffuelOneside - BurnOffFuelOneSide
+                    ?reduceSpeed - ReduceSpeed
+                    ?noseHigh - NoseHigh
+                    ?apply_aileron - ApplyAileron)
+        :task(react_to_landing_gear_emergency )
+        :precondition(and
+            (p_isSide ?landingGearEmergency)
+        )
+        :subtasks
+        (and
+            (task1 
+                (burn_off_fuel_one_side ?burnOfffuelOneside)
+            )
+          (task2 
+                (reduce_speed ?reduceSpeed)
+            )
+
+            (task3 
+                (nose_high ?noseHigh)
+            )
+            (task4 
+                (apply_aileron ?apply_aileron)
+            )
+        )
+    )
+
+
+    (:method m_react_to_landing_gear_emergency_strip_foam_nose
+        ;; Depending on the configuration for eg foam or grass or strip 
+        ; and which wheel is retracted various configuration are possible 
+        ;; We limit ourself to landing on grass  and foamed strip. Corresponding decomposition structures can be composed for all configuration  
+        ;; with activated nosewheel and one main gear
+        ;; 
+        ;; one  landing on strip with nose retracted 
+        ; reducespeed
+        ; apply full elevator
+        ; release back pressure 
+        ; avoid braking 
+        ; 
+        :parameters (?landingGearEmergency - LandingGearEmergency
+                     ?reduceSpeed - ReduceSpeed
+                     ?applyFullElevator - ApplyFullElevator
+                     ?releaseBackPressure - ReleaseBackPressure
+                     ?avoidBreaking - AvoidBreaking)
+        :task(react_to_landing_gear_emergency )
+        :precondition(and
+            (p_isNose ?landingGearEmergency)
+        )
+        :subtasks
+        (and
+            (task1 
+                (reduce_speed ?reduceSpeed)
+            )
+           (task2 
+                (apply_full_elevator ?applyFullElevator)
+            )
+
+            (task3 
+                (release_back_pressure ?releaseBackPressure)
+            )
+            (task4 
+                (avoid_breaking ?avoidBreaking)
+            )
+        )
+    )
+
+
+
+
+    (:action noop
+        :parameters ()
+        :precondition ()
+        :effect (
+
+        )
+    )
+
+
+    
+
+
+    (:action close_cabin_vents
+        :parameters (?cabinVent - CabinVent)
+        :precondition (and
+           
+            (not(p_isOff ?cabinVent ))
+        )
+        :effect (and
+            (p_isOff ?cabinVent)
+        )
+    )
+
+    (:action activate_fire_extinguisher
+        :parameters (?activateFireExtinguisher - ActivateFireExtinguisher)
+        :precondition (and
+           
+            (not(p_isPerformed ?activateFireExtinguisher))
+        )
+        :effect (and
+            (p_isPerformed ?activateFireExtinguisher)
+        )
+    )
+    (:action turn_off_avionics_master_switch
+        :parameters (?ams - AvionicsMasterSwitch )
+        :precondition (and
+        (not (p_isOn ?ams ))
+        )
+        :effect (and 
+            (p_isOn ?ams)
+        )
+    )
+
+    (:action turn_on_avionics_master_switch
+        :parameters (?ams - AvionicsMasterSwitch)
+        :precondition (and (p_isOn ?ams) )
+        :effect (and 
+            (not(p_isOn ?ams))
+            (p_isOff ?ams))
+    )
+
+    (:action set_mixture_control_to_idle_cutoff_position
+        :parameters (?mixtureCutOffPostion - MixtureCutOffPostion)
+        :precondition (and (not(p_isPositionReached ?mixtureCutOffPostion)) )
+        :effect (and (p_isPositionReached ?mixtureCutOffPostion))
+    )
+    (:action pull_out_fuel_shutoff_valve
+        :parameters (?fuelShutOffValve - FuelShutOffValve)
+        :precondition (and (not(p_isPulledOut ?fuelShutOffValve)))
+        :effect (and (p_isPulledOut ?fuelShutOffValve))
+    )
+
+
+    ;; Now I need to define predicates and stuff so that each method is seperate from the other one 
+    
+    
+    
+    (:action turn_on_master_switch_alt ; Cessana 162 has alt and battery https://www.flickr.com/photos/28042007@N07/8613010276
+        :parameters (?masterAlternatorSwitch - MasterAlternatorSwitch)
+        :precondition (and 
+                        (not(p_isOff ?masterAlternatorSwitch))
+                        (not(p_isOn ?masterAlternatorSwitch)) )
+        :effect (and
+            (p_isOff ?masterAlternatorSwitch)
+            (p_isOn ?masterAlternatorSwitch)
+         )
+    )
+    (:action turn_on_master_switch_bat
+        :parameters (?masterBatterySwitch - MasterBatterySwitch)
+        :precondition (and         
+                        (not(p_isOff ?masterBatterySwitch))
+                        (not(p_isOn ?masterBatterySwitch))  )
+        :effect (and 
+                    (p_isOff ?masterBatterySwitch)
+                    (p_isOn ?masterBatterySwitch)
+        )
+    )
+    (:action turn_off_master_switch_alt ; Cessana 162 has alt and battery https://www.flickr.com/photos/28042007@N07/8613010276
+        :parameters (?masterAlternatorSwitch - MasterAlternatorSwitch)
+        :precondition (and
+            (not(p_isOff ?masterAlternatorSwitch))
+            (p_isOn ?masterAlternatorSwitch)
+         )
+        :effect (and 
+                    (not(p_isOff ?masterAlternatorSwitch))
+                    (not(p_isOn ?masterAlternatorSwitch))
+        )
+    )
+    (:action turn_off_master_switch_bat
+        :parameters (?masterBatterySwitch - MasterBatterySwitch)
+        :precondition (and
+                    (not(p_isOff ?masterBatterySwitch))
+                    (p_isOn ?masterBatterySwitch)      
+         )
+        :effect (and
+                    (not(p_isOff ?masterBatterySwitch))
+                    (not(p_isOn ?masterBatterySwitch))   
+         )
+    )
+
+    ; fire is not extinguished, increase glide
+    ; speed to find an airspeed, within airspeed limitations, which will
+    ; provide an incombustible mixture
+    (:action maintain_airspeed_of_85_knots ; 85 Knots indicated airspeed 
+        :parameters (?maintainAirspeed - MaintainAirspeed)
+        :precondition (and (not (p_isPerformed ?maintainAirspeed)) )
+        :effect (and (p_isPerformed ?maintainAirspeed) )
+    )
+    
+    (:action execute_forced_landing_without_power
+        :parameters (?forcedLandingWithoutPower - ForcedLandingWithoutPower)
+        :precondition (and (not(p_isPerformed ?forcedLandingWithoutPower)) )
+        :effect (and (p_isPerformed ?forcedLandingWithoutPower))
+    )
+    
+
+    (:action perform_rapid_descent
+        :parameters (?rapidDescent - RapidDescent)
+        :precondition (and
+         (not (p_isPerformed ?rapidDescent)) )
+        :effect (and (p_isPerformed ?rapidDescent))
+    )
+
+
+    (:action alert_ATC_action
+        :parameters (?alertATC - AlertATC)
+        :precondition (and (not(p_isPerformed ?alertATC)) )
+        :effect (and (p_isPerformed ?alertATC) )
+    )
+
+    (:action activate_all_flight_help
+        :parameters (?activateAllFLightHelp - ActivateAllFlightHelp)
+        :precondition (and (not(p_isPerformed ?activateAllFLightHelp)) )
+        :effect (and (p_isPerformed ?activateAllFLightHelp) )
+    )
+
+    (:action give_control_to_autopilot
+        :parameters (?giveControlToAutopilot - GiveControlToAutopilot)
+        :precondition (and (not(p_isPerformed ?giveControlToAutopilot)) )
+        :effect (and (p_isPerformed ?giveControlToAutopilot) )
+    )
+    (:action execute_forced_landing_with_power
+        :parameters (?forcedLandingWithPower - ForcedLandingWithPower)
+        :precondition (and (not(p_isPerformed ?forcedLandingWithPower)) )
+        :effect (and (p_isPerformed ?forcedLandingWithPower))
+    )
+
+    (:action open_cabin_vents
+        :parameters ()
+        :precondition (and )
+        :effect (and )
+    )
+
+    (:action turn_off_cabin_heat_control_knob
+        :parameters (?cabinHeatControlKnob - CabinHeatControlKnob)
+        :precondition (and (not(p_isOff ?cabinHeatControlKnob)))
+        :effect (and (p_isOn ?cabinHeatControlKnob) )
+    )
+    (:action turn_on_cabin_heat_control_knob
+        :parameters (?cabinHeatControlKnob - CabinHeatControlKnob)
+        :precondition (and (p_isOn ?cabinHeatControlKnob))
+        :effect (and (p_isOff ?cabinHeatControlKnob))
+    )
+    
+    
+
+    (:action check_for_open_circuits
+        :parameters ()
+        :precondition (and )
+        :effect (and )
+    )
+
+    (:action turn_off_landing_light_switch
+        :parameters (?landingLightSwitch - LandingLightSwitch)
+        :precondition (and
+            (not(p_isOn ?landingLightSwitch))
+         )
+        :effect (and
+        (p_isOn ?landingLightSwitch) )
+    )
+    (:action turn_off_nav_light_switch
+        :parameters (?navLightSwitch - NavLightSwitch)
+        :precondition (and
+        (not(p_isOn ?navLightSwitch)) )
+        :effect (and 
+        (p_isOn ?navLightSwitch))
+    )
+    (:action turn_off_strobe_light_switch
+        :parameters (?strobeLightSwitch - StrobeLightSwitch)
+        :precondition (and 
+        (not(p_isOn ?strobeLightSwitch)))
+        :effect (and
+        (p_isOn ?strobeLightSwitch)
+         )
+    )
+    (:action perfom_slideslip
+        :parameters (?slideslip - Slideslip)
+        :precondition (and
+        (not (p_isPerformed ?slideslip)) )
+        :effect (and
+        (p_isPerformed ?slideslip) )
+    )
+    (:action burn_off_fuel_one_side
+        :parameters (?burnOfffuelOneside - BurnOffFuelOneSide)
+        :precondition (and
+        (not (p_isPerformed ?burnOfffuelOneside)) )
+        :effect (and
+        (p_isPerformed ?burnOfffuelOneside) )
+    )
+    (:action reduce_speed
+        :parameters (?reduceSpeed - ReduceSpeed)
+        :precondition (and
+        (not (p_isPerformed ?reduceSpeed)) )
+        :effect (and
+        (p_isPerformed ?reduceSpeed) )
+    )
+
+    (:action apply_full_elevator
+        :parameters (?applyFullElevator - ApplyFullElevator)
+        :precondition (and
+        (not (p_isPerformed ?applyFullElevator)) )
+        :effect (and
+        (p_isPerformed ?applyFullElevator) )
+    )
+
+    (:action release_back_pressure
+        :parameters (?releaseBackPressure - ReleaseBackPressure)
+        :precondition (and
+        (not (p_isPerformed ?releaseBackPressure)) )
+        :effect (and
+        (p_isPerformed ?releaseBackPressure) )
+    )
+
+    (:action avoid_breaking
+        :parameters (?avoidBreaking - AvoidBreaking)
+        :precondition (and
+        (not (p_isPerformed ?avoidBreaking)) )
+        :effect (and
+        (p_isPerformed ?avoidBreaking) )
+    )
+    (:action nose_high
+        :parameters (?noseHigh - NoseHigh)
+        :precondition (and
+        (not (p_isPerformed ?noseHigh)) )
+        :effect (and
+        (p_isPerformed ?noseHigh) )
+    )
+    (:action apply_aileron
+        :parameters (?applyAileron - ApplyAileron)
+        :precondition (and
+        (not (p_isPerformed ?applyAileron)) )
+        :effect (and
+        (p_isPerformed ?applyAileron) )
+    )
+
+    (:action electric_fire_not_extinguished_land
+        :parameters ()
+        :precondition (and )
+        :effect (and )
+    )
+    
+
+
+
+
+
+)

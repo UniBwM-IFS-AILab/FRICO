@@ -1,0 +1,53 @@
+(define (problem problemSimplified)
+            (:domain airplaneDomain)
+            (:objects
+                acs - Accessories
+ 				ap - AircraftPart
+ 				pos - Position
+ 				com - Communications
+ 				em - Emergency
+ 				ie - InteractableElements
+ 				ins - Instrument
+ 				swi - Switch
+ 				btn - Button
+ 				val - Valve
+ 				knb - Knob
+ 				vnt - Vent
+ 				nls - NavLightSwitch
+ 				sls - StrobeLightSwitch
+ 				ams - AvionicsMasterSwitch
+ 				mas - MasterAlternatorSwitch
+ 				mbs - MasterBatterySwitch
+ 				lls - LandingLightSwitch
+ 				chck - CabinHeatControlKnob
+ 				fsov - FuelShutOffValve
+ 				cabvent - CabinVent
+ 				mdmsg - MaydayMessage
+ 				panmsg - PanMessage
+ 				mcopf - MixtureCutOffPostion
+ 				firet - FireType
+ 				alrtatc - AlertATC
+ 				afe - ActivateFireExtinguisher
+ 				rdescent - RapidDescent
+ 				flwp - ForcedLandingWithPower
+ 				flwop - ForcedLandingWithoutPower
+ 				sslip - Slideslip
+ 				maintainas - MaintainAirspeed
+ 				col - FireColor
+            )
+
+            (:htn
+                :subtasks
+                (and
+                    (react_to_fire_type_emergency)
+                )
+                ; Add subtasks here
+            )
+
+            (:init     
+                ; Add initial state here
+                (p_isFireColorRed col)
+ 				(p_isFireEngine firet)
+            )
+        )
+        
