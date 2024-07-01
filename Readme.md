@@ -40,8 +40,8 @@ It is strongly recommended using virtual environments if you are not running doc
 
 # Known Issues
 
-1. If you are using Ubuntu, Docker installed using snap causes issues. Install docker using apt-get 
-2. You might need to change the Rasa version to `rasa==3.6.1a1` in requirements.txt file for Plan4Dial
+1. If you are using Ubuntu, Docker installed using snap causes issues. Install docker using `apt-get` .
+2. You might need to change the Rasa version to `rasa==3.6.1a1` in [requirements.txt file for Plan4Dial](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/plan4dial/-/blob/local_branch/requirements.txt?ref_type=heads#L3).
 3. While loading inside docker, sometimes Rasa takes a long time to load. Note that hovor cannot work with Rasa. 
 
 
