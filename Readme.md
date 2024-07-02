@@ -16,9 +16,9 @@ It is strongly recommended using virtual environments if you are not running doc
 
  `git clone https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/hovor ` 
 
-3. switch to `local_branch` and `local_experiments` branch respectively using `git switch local_branch` for plan4dial and `git switch local_experiments` for hovor. 
+3. switch to `local_branch` and `local_experiments` branch respectively using `git switch local_branch` for plan4dial and `git switch local_experiments` for hovor. Use `git pull` to update the local branch if required. 
 
-4. Note that `rbp.sif` is already inside local_branch in plan4dial, so there is no need to acquire it from Christian. 
+4. Note that `rbp.sif` is in Teamdrive for internal use. Refer to plan4dial docs on how to get this file from Christian Muise.  
 
 4. To generate the output file from the bot definition, refer to the [plan4dial documentation.](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/plan4dial/-/blob/local_branch/README.md?ref_type=heads) (local run as well as docker run is possible). Plan4Dial generates `data.prp.json` along with the complete output folder,  which is the input to Hovor. Hovor can also be run either locally or docker. Refer to [the documentation for this](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/hovor/-/blob/local_experiments/README.md?ref_type=heads).  Local run is used for debugging and development purpose, once debuggin and development is done, you can build the docker image and use it to run the code.  So, if you are only interested in running the code, prefer docker run, if you are interested in debugging, prefer local run (however you can attach debugger [using vscode](https://code.visualstudio.com/docs/containers/debug-common) ). So it is also a matter of personal taste. 
 
