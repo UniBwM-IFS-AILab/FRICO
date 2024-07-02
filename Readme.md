@@ -16,7 +16,7 @@ It is strongly recommended using virtual environments if you are not running doc
 
  `git clone https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/hovor ` 
 
-3. switch to `local_branch` and `local_experiments` branch respectively 
+3. switch to `local_branch` and `local_experiments` branch respectively using `git switch local_branch` for plan4dial and `git switch local_experiments` for hovor. 
 
 4. To generate the output file from the bot definition, refer to the [plan4dial documentation.](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/plan4dial/-/blob/local_branch/README.md?ref_type=heads) (local run as well as docker run is possible). Plan4Dial generates `data.prp.json` along with the complete output folder,  which is the input to Hovor. Hovor can also be run either locally or docker. Refer to [the documentation for this](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/hovor/-/blob/local_experiments/README.md?ref_type=heads). 
 
