@@ -2,9 +2,9 @@
     "p_isSmokeDetected": "FireType",
     "p_isFireDetected": "FireType",
     "p_isCowlingAreaDiscolorationDetected": "",
-    "p_isFireElectric": "FireType",
-    "p_isFireEngine": "FireType",
-    "p_isFireWing": "FireType",
+    "p_isElectricFire": "FireType",
+    "p_isEngineFire": "FireType",
+    "p_isWingFire": "FireType",
     "p_isFireColorRed": "FireColor",
 
     "p_isMental": "HealthEmergencyType",
@@ -16,6 +16,10 @@
     "p_isCabinVentsClosed": "",
     "p_isPerformed": "ExtPerformableActions",
     "p_isPulledOut": "Valve",
-    "p_isPulledIn": "Valve"
+    "p_isPulledIn": "Valve",
+
+    "p_isSide": "LandingGearEmergency", 
+    "p_isNose": "LandingGearEmergency"
+
   }
   

@@ -1,7 +1,7 @@
 # Instructions
 
 1. First take the dump of api call as reference, this should contain all the variables for FOND planning instance 
-2. in fond_to_hddl_map.json create mapping to all the HDDL variables that derive from FOND instance . This has to be defined 
+2. In fond_to_hddl_map.json create mapping to all the HDDL variables that derive from FOND instance . This has to be defined 
     The convention is as Follows, 
         p_is+"VariableTypeInHDDL"+"VariableValueFromFOND"
 

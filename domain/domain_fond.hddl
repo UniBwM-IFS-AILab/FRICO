@@ -30,7 +30,8 @@
         MixtureCutOffPostion - Position
         FireType FireColor HealthEmergencyType LandingGearEmergency - Emergency
         ApplyFullElevator AvoidBreaking ReleaseBackPressure ReduceSpeed BurnOffFuelOneSide NoseHigh ApplyAileron BurnOffExcessFuel ActivateAllFlightHelp GiveControlToAutopilot AlertATC ActivateFireExtinguisher RapidDescent ForcedLandingWithPower ForcedLandingWithoutPower Slideslip MaintainAirspeed - ExtPerformableActions
-        ; EngineFire ElectricFire CabinFire - FireType
+        EngineFire ElectricFire WingFire - FireType
+        Nose Side - LandingGearEmergency
         ; MentalHealth PhysicalHealth - HealthEmergencyType
         ; SingleLeadingGear AllLandingGear - LandingGearEmergency
 
@@ -41,25 +42,18 @@
 
     (:predicates ;todo: define predicates here
 
-        (p_isSmokeDetected)
-        (p_isFireDetected ?fireType - FireType)
-        (p_isCowlingAreaDiscolorationDetected)
+
+        (p_isElectricFire ?fireType - FireType)
+        (p_isEngineFire ?fireType - FireType)
+        (p_isWingFire ?fireType - FireType)
 
 
-        (p_isFireElectric ?fireType - FireType)
-        (p_isFireEngine ?fireType - FireType)
-        (p_isFireWing ?fireType - FireType)
-
-        (p_isFireColorRed ?fireColor - FireColor)
 
         (p_isMental ?healthEmergencyType - HealthEmergencyType)
         (p_isPhysical ?healthEmergencyType - HealthEmergencyType)
 
         (p_isSide ?landingGearEmergency - LandingGearEmergency)
-        (p_isNose ? landingGearEmergency - LandingGearEmergency)
-
-        (p_isFoam ?landingSurface - LandingSurface)
-        (p_isStrip ? landingSurface - LandingSurface)
+        (p_isNose ?landingGearEmergency - LandingGearEmergency)
 
 
         (p_isOn ?instrument - InteractableElements)
@@ -69,7 +63,7 @@
         (p_isCabinVentsClosed )
         (p_isPerformed ?extPerformableActions - ExtPerformableActions)
         (p_isPulledOut ?valve - Valve)
-        (p_isPulledIn ?valve - Valve)
+
 
 
         ; (p_turn_off_master_switch_only_bat)
@@ -104,6 +98,10 @@
     (:task electric_fire_follow_up_steps
         :parameters())
 
+
+
+
+
     (:method m_react_to_fire_type_emergency_engine_fire
         :parameters(?fireType - FireType
                     ?mixtureCutOffPostion - MixtureCutOffPostion
@@ -115,7 +113,7 @@
         (react_to_fire_type_emergency )
 
         :precondition(and
-        (p_isFireEngine ?fireType))
+        (p_isEngineFire ?fireType))
 
         :ordered-subtasks
         (and 
@@ -143,7 +141,7 @@
         (react_to_fire_type_emergency )
 
         :precondition(and
-        (p_isFireElectric ?fireType))
+        (p_isElectricFire ?fireType))
 
         :ordered-subtasks
         (and 
@@ -209,7 +207,7 @@
 
         :precondition(and
 
-         (p_isFireWing ?fireType))
+         (p_isWingFire ?fireType))
 
         :ordered-subtasks
         (and 
@@ -234,7 +232,7 @@
         :parameters (?fireType - FireType ?masterAlternatorSwitch - MasterAlternatorSwitch ?masterBatterySwitch - MasterBatterySwitch)
         :task(turn_off_master_switch ?fireType)
         :precondition(and
-            (p_isFireElectric ?fireType)
+            (p_isElectricFire ?fireType)
         )
         :subtasks
         (and
@@ -252,7 +250,7 @@
         :parameters (?fireType - FireType ?masterAlternatorSwitch - MasterAlternatorSwitch ?masterBatterySwitch - MasterBatterySwitch)
         :task(turn_off_master_switch ?fireType)
         :precondition(and
-            (p_isFireEngine ?fireType)
+            (p_isEngineFire ?fireType)
         )
         :subtasks
         (and
@@ -266,7 +264,7 @@
         :parameters (?fireType - FireType ?masterAlternatorSwitch - MasterAlternatorSwitch ?masterBatterySwitch - MasterBatterySwitch)
         :task(turn_on_master_switch ?fireType)
         :precondition(and
-            (p_isFireElectric ?fireType)
+            (p_isElectricFire ?fireType)
         )
         :subtasks
         (and
@@ -284,7 +282,7 @@
         :parameters (?fireType - FireType ?masterAlternatorSwitch - MasterAlternatorSwitch)
         :task(turn_off_master_switch ?fireType)
         :precondition(and
-            (p_isFireEngine ?fireType)
+            (p_isEngineFire ?fireType)
         )
         :subtasks
         (and

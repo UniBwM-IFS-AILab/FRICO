@@ -3,9 +3,9 @@
 "smoke_unknown_location_and_fire_known":["(react_to_fire_type_emergency)"],
 "smell_known_location_required":["(react_to_fire_type_emergency)"],
 "smoke_known_location_required":["(react_to_fire_type_emergency)"],
-"landing_gear_malfunction_emergency":["(react_to_health_emergency)"],
+"landing_gear_malfunction_emergency":["(react_to_landing_gear_emergency)"],
 "physical_health_emergency":["(react_to_health_emergency)"],
-"mental_health_emergency":["(react_to_landing_gear_emergency)"]
+"mental_health_emergency":["(react_to_health_emergency)"]
 
 
 }

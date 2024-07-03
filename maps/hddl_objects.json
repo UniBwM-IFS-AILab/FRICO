@@ -31,5 +31,22 @@
     "ForcedLandingWithoutPower": "flwop",
     "Slideslip": "sslip",
     "MaintainAirspeed": "maintainas",
-    "FireColor": "col"
+    "FireColor": "col",
+    "EngineFire": "engfire", 
+    "ElectricFire": "elecfire", 
+    "WingFire": "wngFire", 
+    "Nose": "nos", 
+    "Side": "sd", 
+    "HealthEmergencyType": "het", 
+    "ActivateAllFlightHelp": "actallfh", 
+    "GiveControlToAutopilot": "gctap", 
+    "LandingGearEmergency": "lge", 
+    "BurnOffFuelOneSide":"bfos",
+    "ReduceSpeed":"rs",
+    "NoseHigh":"noh",
+    "ApplyAileron": "aa", 
+    "ApplyFullElevator":"afelevator", 
+    "ReleaseBackPressure": "releasebp", 
+    "AvoidBreaking": "ab"
+
 }
