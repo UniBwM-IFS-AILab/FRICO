@@ -24,9 +24,10 @@ It is strongly recommended using virtual environments if you are not running doc
 
 5. For Hovor, the defined bot has `web_plan` action type. This is action that we use to generate the plans. It takes `endpoint`, `domain_file` and `problem_file` as default payload. (An example for domain and problem file is in `domain_fond.hddl` and `python_generated.hddl` respectively)  As of right now, we discard `problem_file` value and replace it with a generated file name.#Todo Fix this.  You have to make sure that there is a planner-server running that can return the plan from this call. 
 
-6.  To use an example server: install [unified-planning](https://unified-planning.readthedocs.io/en/latest/) and `FastAPI`
-     1. To install UP use `pip install unified-planning` . Install all the default planning engines using `pip install unified-planning[engines]`
+6.  To use an example server: install [unified-planning](https://unified-planning.readthedocs.io/en/latest/) and `FastAPI` 
+     1. To install UP use `pip install unified-planning` . Install all the default planning engines using `pip install unified-planning[engines]` If this does not work use `pip install up-aries` to install the aries planning engine.  If you get a numpy error, downgrade numpy using `pip install numpy==1.26.4`
      2. To install FastAPI use `pip install fastapi`
+     3. Make sure that you install `python>3.10` The version we used is `3.11.9`.
      
 7. Then you can run the app inside `upf_hierarchical.py` using `uvicorn`. To run the app use`uvicorn server:app --reload` The mapping functions are inside the maps folder. Refer to `instructions_mapping.md` for more details. 
 8. You can install it in your base environment but it is recommended that you install it in virtual environment of your choice. 
