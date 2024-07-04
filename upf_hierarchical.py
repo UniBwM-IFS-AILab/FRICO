@@ -25,15 +25,10 @@ fond_map = {
 }
 
 
-# with open("state_variables_dump/dump.json") as f: 
-#     fond_result_dict = json.load(f)
-
 
 with open("maps/situation_to_task_map.json") as f: 
     scenario_tasks_dict = json.load(f)
 
-with open("maps/fond_to_hddl_map.json") as f: 
-    hddl_predicate_map = json.load(f)
 with open("maps/hddl_objects.json") as f: 
     hddl_objects = json.load(f)
 with open("maps/predictate_object_map.json") as f: 
@@ -74,29 +69,6 @@ def generate_hddl_file(file_path, objects, subtasks, inits):
 
 
 
-# def determine_instant_from_dump(fond_result, fond_to_hddl, task_map, hddl_objects, predicate_to_object):
-#     inits = []
-#     subtasks = task_map[fond_result["emergency_type"]]
-    
-#     for var in fond_to_hddl: 
-#         try: 
-#             if fond_result[var] != None and fond_result[var]!= False : 
-#                 print(fond_result[var])
-#                 if fond_result[var] == True: 
-#                     hddl_pred = fond_to_hddl[var]
-#                 else: 
-#                     value = "".join(fond_result[var].split(" "))
-#                     value = value.capitalize()
-#                     if fond_to_hddl[var]!="":
-#                         hddl_pred = fond_to_hddl[var]+value
-#                         append_str = " "+hddl_objects[predicate_to_object[hddl_pred]]
-#                         final_str = hddl_pred + append_str
-#                         inits.append(final_str)
-#         except KeyError as e:
-#             print("Didn't find key", var)
-
-        
-#     return inits, subtasks
 
 def determine_instant_from_dump(fond_result,task_map, hddl_predicate_arguments_object, hddl_objects_shorthand):
     inits = []
@@ -113,12 +85,16 @@ def determine_instant_from_dump(fond_result,task_map, hddl_predicate_arguments_o
                 
                 if fond_value == "engine": 
                     
-                    inits.append("p_isEngineFire" + " " + " ")
+                    inits.append("p_isEngineFire"+ " "+hddl_objects_shorthand[hddl_predicate_arguments_object["p_isEngineFire"]])
                 
                 elif fond_value == "wing": 
-                    inits.append("p_isWingFire")
+                    inits.append("p_isWingFire"+" "+hddl_objects_shorthand[hddl_predicate_arguments_object["p_isWingFire"]])
                     
-                
+                elif fond_value == "electric": 
+                    inits.append("p_isElectricFire"+" "+hddl_objects_shorthand[hddl_predicate_arguments_object["p_isElectricFire"]])
+                    inits.append("p_isOn"+" "+ "mas")
+                    inits.append("p_isOn"+" "+ "mbs")
+
         
         case "landing_gear_malfunction_emergency": 
             
@@ -148,17 +124,7 @@ def determine_instant_from_dump(fond_result,task_map, hddl_predicate_arguments_o
         case _:
             return "something went wrong"
             
-            
-
-
-    # for var in task_map.keys(): 
-       
-    #    if fond_result[var] == True: 
-           
-    #        preconditions = map[var][preconditions]
-    #        print(preconditions)
-           
-           
+             
            
            
 
