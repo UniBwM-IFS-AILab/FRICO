@@ -1120,6 +1120,9 @@ actions:
     condition:
       landing_gear_specifier: 
         known: true
+      emergency_type:
+        value: landing_gear_malfunction_emergency
+        known: true
       grass_request:
         value: false 
       foam_request:
