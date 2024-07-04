@@ -157,7 +157,7 @@ async def root():
     return {"message": "hello world"}
 
 @app.post("/create_plan")
-async def create_wav(item: Item) -> str: 
+async def create_plan(item: Item) -> str: 
     
     domain_path = item.domain_file 
     problem_path = item.problem_file
