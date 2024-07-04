@@ -28,6 +28,7 @@ It is strongly recommended using virtual environments if you are not running doc
      1. To install UP use `pip install unified-planning` . Install all the default planning engines using `pip install unified-planning[engines]` If this does not work use `pip install up-aries` to install the aries planning engine.  If you get a numpy error, downgrade numpy using `pip install numpy==1.26.4`
      2. To install FastAPI use `pip install fastapi`
      3. Make sure that you install `python>3.10` The version we used is `3.11.9`.
+     4. make sure that you have the correct `dump.json` file inside `create_plan` function. 
      
 7. Then you can run the app inside `upf_hierarchical.py` using `uvicorn`. To run the app use`uvicorn server:app --reload` The mapping functions are inside the maps folder. Refer to `instructions_mapping.md` for more details. 
 8. You can install it in your base environment but it is recommended that you install it in virtual environment of your choice. 

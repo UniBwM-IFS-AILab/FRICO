@@ -55,14 +55,14 @@
             (:htn
                 :subtasks
                 (and
-                    (react_to_landing_gear_emergency)
+                    (react_to_fire_type_emergency)
                 )
                 ; Add subtasks here
             )
 
             (:init     
                 ; Add initial state here
-                (p_isNose lge)
+                (p_isWingFire firet)
             )
     )
     
