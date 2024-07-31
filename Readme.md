@@ -16,10 +16,11 @@ This set-up has been tested on a system `Ubuntu 22.04` both inside docker contai
 
 ## Folder Structure 
 
-After git submodule update, you will have the following folder structure: 
+After git submodule update, you will have the following folder structure additional to the files in this repository: 
 
           hovor\*
           plan4dial\*
+
 
 Hovor is responsible for executing the dialogue while plan4dial is responsible for the generation of the dialogue graph. 
 
