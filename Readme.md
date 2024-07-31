@@ -5,22 +5,39 @@ This is the complimentary Repo to the Paper **A Goal-Directed Dialogue System fo
 
 # Set Up
 
-It is strongly recommended using virtual environments if you are not running dockerzied versions of the repos. 
-
-1. clone the repository for plan4dial 
-
-`git clone https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/plan4dial` 
+This set-up has been tested on a system `Ubuntu 22.04` both inside docker container and natively. This system has not been tested in windows or inside docker container with windows host. 
 
 
-2. clone the repository for hovor
 
- `git clone https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/hovor ` 
+## Initial steps 
 
-3. switch to `local_branch` and `local_experiments` branch respectively using `git switch local_branch` for plan4dial and `git switch local_experiments` for hovor. Use `git pull` to update the local branch if required. 
+1. Clone the repository with `git clone https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/ijcai-submission.git `
+2. Initialize the submodules with `git submodule update`
+
+## Folder Structure 
+
+After git submodule update, you will have the following folder structure: 
+
+          hovor\*
+          plan4dial\*
+
+Hovor is responsible for executing the dialogue while plan4dial is responsible for the generation of the dialogue graph. 
+
+### Plan4Dial
+
+
+It is strongly recommended using virtual environments if you are not running dockerized versions of the repos. 
+
+
+1. Make sure that you are at the `ijcai_submission` tag for `plan4dial` using `git checkout ijcai_submission`
 
 4. Note that `rbp.sif` is in Teamdrive for internal use (/spaces/ai-lab/veröffentlichung_paper_vortrag/2024_ijcai). Refer to plan4dial docs on how to get this file from Christian Muise.  
 
-4. To generate the output file from the bot definition, refer to the [plan4dial documentation.](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/plan4dial/-/blob/local_branch/README.md?ref_type=heads) (local run as well as docker run is possible). Plan4Dial generates `data.prp.json` along with the complete output folder. This folder is input to hovor.  The output file is passed on as arguement [here](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/hovor/-/blob/local_experiments/contingent_plan_executor/local_main.py?ref_type=heads#L16). Make sure to change the path. Hovor can also be run either locally or docker. Refer to [the documentation for this](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/hovor/-/blob/local_experiments/README.md?ref_type=heads).  Local run is used for debugging and development purpose, once debuggin and development is done, you can build the docker image and use it to run the code.  So, if you are only interested in running the code, prefer running inside docker.  If you are interested in debugging and developing, it might be preferable to set up an local environment (however you can attach debugger [using vscode](https://code.visualstudio.com/docs/containers/debug-common)  and achieve the same result, so it is a matter of personal preference). 
+4. To generate the output file from the bot definition, refer to the [plan4dial documentation.](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/plan4dial/-/blob/local_branch/README.md?ref_type=heads) (local run as well as docker run is possible). Plan4Dial generates `data.prp.json` along with the complete output folder.
+
+### Hovor
+
+ The output folder of Plan4dial is the input hovor.  The output file is passed on as arguement [here](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/hovor/-/blob/local_experiments/contingent_plan_executor/local_main.py?ref_type=heads#L16). Make sure to change the path. Hovor can also be run either locally or docker. Refer to [the documentation for this](https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/hovor/-/blob/local_experiments/README.md?ref_type=heads).  Local run is used for debugging and development purpose, once debuggin and development is done, you can build the docker image and use it to run the code.  So, if you are only interested in running the code, prefer running inside docker.  If you are interested in debugging and developing, it might be preferable to set up an local environment (however you can attach debugger [using vscode](https://code.visualstudio.com/docs/containers/debug-common)  and achieve the same result, so it is a matter of personal preference). 
 
 5. For Hovor, the defined bot has `web_plan` action type. This is action that we use to generate the plans. It takes `endpoint`, `domain_file` and `problem_file` as default payload. (An example for domain and problem file is in `domain_fond.hddl` and `python_generated.hddl` respectively)  As of right now, we discard `problem_file` value and replace it with a generated file name.#Todo Fix this.  You have to make sure that there is a planner-server running that can return the plan from this call. 
 
