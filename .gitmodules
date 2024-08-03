@@ -1,8 +1,8 @@
 [submodule "plan4dial"]
 	path = plan4dial
-	url = https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/plan4dial.git
+	url = https://github.com/99arp/plan4dial.git
 	branch = local_branch
 [submodule "hovor"]
 	path = hovor
-	url = https://git.unibw.de/angewandte-ki-f-r-dynamische-systeme/hovor.git
+	url = https://github.com/99arp/hovor.git
 	branch = local_experiments
