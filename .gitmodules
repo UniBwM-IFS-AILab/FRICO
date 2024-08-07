@@ -1,0 +1,6 @@
+[submodule "hovor"]
+	path = hovor
+	url = https://github.com/UniBwM-IFS-AILab/FRICO-Sub-HOVOR.git
+[submodule "FRICO-Sub-Plan4Dial"]
+	path = FRICO-Sub-Plan4Dial
+	url = https://github.com/UniBwM-IFS-AILab/FRICO-Sub-Plan4Dial.git
