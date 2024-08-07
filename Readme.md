@@ -56,12 +56,12 @@ It is strongly recommended to use virtual environments if you are not running do
 5. The above two repositories do not touch on how to visualize the plans or how to access hovor via API-endpoints. However, we do have have our cockpit interface that can do exactly that. **(Repository coming soon in September 2024)**. Note that this however requires PANDA planner, because, we are interested in orderings too.
 6. To summarize: 
     
-    - a. Get Plan4Dial.
-    - b. Generate output file.
-    - c. Get Hovor and run it using the previous output.
-    - d. Run UP server. 
-    - e. Now you should be able to communicate via terminal and generate plans. 
-    - f. If you want to use the GUI, use the cockpit repo and follow the instructions there. 
+          - a. Get Plan4Dial.
+          - b. Generate output file.
+          - c. Get Hovor and run it using the previous output.
+          - d. Run UP server. 
+          - e. Now you should be able to communicate via terminal and generate plans. 
+          - f. If you want to use the GUI, use the cockpit repo and follow the instructions there. 
 
 # Known Issues
 
