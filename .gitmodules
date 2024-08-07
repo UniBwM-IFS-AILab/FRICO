@@ -1,7 +1,7 @@
 [submodule "plan4dial"]
 	path = plan4dial
-	url = https://github.com/99arp/plan4dial.git
+	url = https://github.com/UniBwM-IFS-AILab/FRICO-Sub-Plan4Dial.git
 [submodule "hovor"]
 	path = hovor
-	url = https://github.com/99arp/hovor.git
+	url = https://github.com/UniBwM-IFS-AILab/FRICO-Sub-HOVOR.git
 	branch = local_experiments
