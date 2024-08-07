@@ -11,7 +11,7 @@ This set-up has been tested on a `Ubuntu 22.04` system both inside docker contai
 
 ## Initial steps 
 
-1. Clone the repository with `git clone [https://github.com/UniBwM-IFS-AILab/FRICO.git](https://github.com/UniBwM-IFS-AILab/FRICO.git) `
+1. Clone the repository with `git clone https://github.com/UniBwM-IFS-AILab/FRICO.git `
 2. Initialize the submodules with `git submodule update`
 
 ## Folder Structure 
